@@ -1,0 +1,52 @@
+<div class="row">
+  <div class="column left">
+    <mat-nav-list>
+      <mat-list-item (click)="openAddFileDialog()">
+        <label matLine>Add</label>
+        <button mat-icon-button (click)="openAddFileDialog()">
+                <mat-icon>playlist_add</mat-icon>
+             </button></mat-list-item>
+      <mat-list-item *ngFor="let element of data" (click)="info(element)">
+        <label matLine>{{ element.originalName }}</label>
+        <button mat-icon-button (click)="info(element)">
+          <mat-icon aria-label="File Details">info</mat-icon>
+        </button>
+        <a mat-icon-button target="_blank" href="{{rowFile.downloadLink}}">
+          <mat-icon aria-label="Download">file_download</mat-icon>
+        </a>
+        <button mat-icon-button (click)="openDialog(element)">
+            <mat-icon aria-label="Delete forever">delete_forever</mat-icon>
+        </button>
+      </mat-list-item>
+    </mat-nav-list>
+  </div>
+
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <div class="example-container">
+        <mat-form-field>
+          <textarea id="description" [value]="rowFile.description" matInput placeholder="Description" formControlName="description"></textarea>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select id="categorie" [value]="rowFile.categorie" placeholder="Categorie" formControlName="categorie">
+            <mat-option>None</mat-option>
+            <mat-option value="option1">Option 1</mat-option>
+            <mat-option value="option2">Option 2</mat-option>
+            <mat-option value="option3">Option 3</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="form-group">
+      <input type="file" id="fileBase64" (change)="onFileChange($event)" #fileInput>
+      <button mat-raised-button type="button" (click)="clearFile()">clear file</button>
+    </div>
+    <br/>
+    
+    <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || loading">Upload
+    </button>
+    <mat-spinner style="margin:0 auto;" *ngIf="loading"></mat-spinner>    
+  
+  </form>
+</div>
